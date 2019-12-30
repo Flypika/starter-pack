@@ -1,0 +1,21 @@
+package com.flypika.pack.ui.base.viewmodel
+
+import com.flypika.pack.util.permission.OnPermissionRequestListener
+
+interface BaseViewAction {
+
+    fun showAPIError(throwable: Throwable)
+
+    fun showMessage(msg: String)
+
+    fun showMessage(resId: Int)
+
+    fun showUnknownError()
+
+    fun finishScreen()
+
+    fun checkPermission(
+        permissions: Array<String>,
+        onPermissionRequestListener: OnPermissionRequestListener
+    )
+}
