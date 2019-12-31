@@ -5,8 +5,9 @@ import androidx.lifecycle.Observer
 import com.flypika.pack.ui.dialog.LoadingDialog
 import com.flypika.pack.ui.util.transaction
 import com.flypika.pack.util.permission.impl.FragmentPermissionRequester
+import dagger.android.support.DaggerFragment
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : DaggerFragment() {
 
     protected val permissionRequester = FragmentPermissionRequester(this)
 

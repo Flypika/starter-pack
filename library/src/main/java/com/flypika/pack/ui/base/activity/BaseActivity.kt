@@ -1,7 +1,6 @@
 package com.flypika.pack.ui.base.activity
 
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -10,8 +9,9 @@ import com.flypika.pack.ui.base.fragment.OnBackListener
 import com.flypika.pack.ui.dialog.LoadingDialog
 import com.flypika.pack.ui.util.transaction
 import com.flypika.pack.util.permission.impl.ActivityPermissionRequester
+import dagger.android.support.DaggerAppCompatActivity
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : DaggerAppCompatActivity() {
 
     protected val permissionRequester = ActivityPermissionRequester(this)
 
