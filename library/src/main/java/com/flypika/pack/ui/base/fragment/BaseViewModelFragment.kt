@@ -6,11 +6,13 @@ import android.widget.Toast
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
 import com.flypika.pack.R
+import com.flypika.pack.ui.base.constant.DaggerNamedConstants
 import com.flypika.pack.ui.base.viewmodel.BaseViewAction
 import com.flypika.pack.ui.base.viewmodel.BaseViewModel
 import com.flypika.pack.ui.base.viewmodel.ViewModelFactory
 import com.flypika.pack.util.permission.OnPermissionRequestListener
 import javax.inject.Inject
+import javax.inject.Named
 import kotlin.reflect.KClass
 
 abstract class BaseViewModelFragment<
@@ -24,7 +26,9 @@ abstract class BaseViewModelFragment<
 
     protected abstract var viewActionHandler: A
 
-    protected abstract val viewModelVariableId: Int
+    @JvmField
+    @field:[Inject Named(DaggerNamedConstants.viewModelVariableId)]
+    protected var viewModelVariableId: Int = 0
 
     protected abstract val viewModelClass: KClass<VM>
 
