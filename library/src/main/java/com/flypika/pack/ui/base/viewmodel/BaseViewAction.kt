@@ -4,8 +4,6 @@ import com.flypika.pack.util.permission.OnPermissionRequestListener
 
 interface BaseViewAction {
 
-    fun showAPIError(throwable: Throwable)
-
     fun showMessage(msg: String)
 
     fun showMessage(resId: Int)

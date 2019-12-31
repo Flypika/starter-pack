@@ -50,10 +50,6 @@ abstract class BaseViewModelActivity<
         }
     }
 
-    override fun showAPIError(throwable: Throwable) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun showMessage(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
     }

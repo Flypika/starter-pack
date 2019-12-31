@@ -1,12 +1,18 @@
 package com.flypika.pack.ui.base.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.flypika.pack.ui.livedata.manager.LiveEventManager
 import com.flypika.pack.util.TAG
+import com.flypika.pack.util.api.ApiUtil
+import javax.inject.Inject
 
 abstract class BaseViewModel<A : BaseViewAction> : ViewModel() {
+
+    @Inject
+    protected lateinit var context: Context
 
     val viewActionManager = LiveEventManager<Action<A>>()
 
@@ -29,7 +35,10 @@ abstract class BaseViewModel<A : BaseViewAction> : ViewModel() {
 
     protected fun handleServerError(throwable: Throwable) {
         hideLoading()
-        viewActionManager.postEvent { showAPIError(throwable) }
+        viewActionManager.postEvent {
+            val msg = ApiUtil.getApiErrorMessage(context, throwable)
+            showMessage(msg)
+        }
         logError(throwable)
     }
 

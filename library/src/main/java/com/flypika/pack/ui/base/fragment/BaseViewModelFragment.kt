@@ -54,10 +54,6 @@ abstract class BaseViewModelFragment<
         binding.setVariable(viewModelVariableId, viewModel)
     }
 
-    override fun showAPIError(throwable: Throwable) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun showMessage(msg: String) {
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
     }
