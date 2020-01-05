@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
-abstract class BaseDataBindingFragment<T : ViewDataBinding> : BaseFragment() {
+abstract class DataBindingFragment<T : ViewDataBinding> : StarterFragment() {
 
     protected lateinit var binding: T
         private set

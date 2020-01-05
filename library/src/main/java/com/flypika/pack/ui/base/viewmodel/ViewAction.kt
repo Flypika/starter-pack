@@ -2,7 +2,7 @@ package com.flypika.pack.ui.base.viewmodel
 
 import com.flypika.pack.util.permission.OnPermissionRequestListener
 
-interface BaseViewAction {
+interface ViewAction {
 
     fun showMessage(msg: String)
 

@@ -6,7 +6,7 @@ import dagger.BindsInstance
 import dagger.Component
 
 @Component
-interface BaseComponent {
+interface StarterComponent {
 
     @ViewModelVariableIdQualifier
     fun viewModelVariableId(): Int
@@ -22,7 +22,7 @@ interface BaseComponent {
         @BindsInstance
         fun viewModelVariableId(@ViewModelVariableIdQualifier id: Int): Builder
 
-        fun build(): BaseComponent
+        fun build(): StarterComponent
     }
 
     companion object {
@@ -30,7 +30,7 @@ interface BaseComponent {
         fun get(
             context: Context,
             viewModelVariableId: Int
-        ): BaseComponent = DaggerBaseComponent.builder()
+        ): StarterComponent = DaggerStarterComponent.builder()
             .context(context)
             .viewModelVariableId(viewModelVariableId)
             .build()

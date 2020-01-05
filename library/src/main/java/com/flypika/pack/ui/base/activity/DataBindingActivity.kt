@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
-abstract class BaseDataBindingActivity<T : ViewDataBinding> : BaseActivity() {
+abstract class DataBindingActivity<T : ViewDataBinding> : StarterActivity() {
 
     protected lateinit var binding: T
         private set

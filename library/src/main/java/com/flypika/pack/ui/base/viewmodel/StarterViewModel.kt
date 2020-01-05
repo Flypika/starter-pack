@@ -9,7 +9,7 @@ import com.flypika.pack.util.TAG
 import com.flypika.pack.util.api.ApiUtil
 import javax.inject.Inject
 
-abstract class BaseViewModel<A : BaseViewAction> : ViewModel() {
+abstract class StarterViewModel<A : ViewAction> : ViewModel() {
 
     @Inject
     protected lateinit var context: Context
@@ -43,11 +43,11 @@ abstract class BaseViewModel<A : BaseViewAction> : ViewModel() {
     }
 
     protected fun showUnknownError() {
-        viewActionManager.postEvent(event = BaseViewAction::showUnknownError)
+        viewActionManager.postEvent(event = ViewAction::showUnknownError)
     }
 
     protected fun finishScreen() {
-        viewActionManager.postEvent(event = BaseViewAction::finishScreen)
+        viewActionManager.postEvent(event = ViewAction::finishScreen)
     }
 
     protected fun showMessage(msg: String) {

@@ -11,7 +11,7 @@ import com.flypika.pack.ui.util.transaction
 import com.flypika.pack.util.permission.impl.ActivityPermissionRequester
 import dagger.android.support.DaggerAppCompatActivity
 
-abstract class BaseActivity : DaggerAppCompatActivity() {
+abstract class StarterActivity : DaggerAppCompatActivity() {
 
     protected val permissionRequester = ActivityPermissionRequester(this)
 

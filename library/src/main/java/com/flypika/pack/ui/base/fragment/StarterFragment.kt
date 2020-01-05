@@ -7,7 +7,7 @@ import com.flypika.pack.ui.util.transaction
 import com.flypika.pack.util.permission.impl.FragmentPermissionRequester
 import dagger.android.support.DaggerFragment
 
-abstract class BaseFragment : DaggerFragment() {
+abstract class StarterFragment : DaggerFragment() {
 
     protected val permissionRequester = FragmentPermissionRequester(this)
 

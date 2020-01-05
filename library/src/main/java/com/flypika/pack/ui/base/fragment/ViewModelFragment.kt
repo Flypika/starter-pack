@@ -7,18 +7,18 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
 import com.flypika.pack.R
 import com.flypika.pack.di.qualifier.ViewModelVariableIdQualifier
-import com.flypika.pack.ui.base.viewmodel.BaseViewAction
-import com.flypika.pack.ui.base.viewmodel.BaseViewModel
+import com.flypika.pack.ui.base.viewmodel.ViewAction
+import com.flypika.pack.ui.base.viewmodel.StarterViewModel
 import com.flypika.pack.ui.base.viewmodel.ViewModelFactory
 import com.flypika.pack.util.permission.OnPermissionRequestListener
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
-abstract class BaseViewModelFragment<
-        A : BaseViewAction,
-        VM : BaseViewModel<A>,
+abstract class ViewModelFragment<
+        A : ViewAction,
+        VM : StarterViewModel<A>,
         DB : ViewDataBinding
-        > : BaseDataBindingFragment<DB>(), BaseViewAction {
+        > : DataBindingFragment<DB>(), ViewAction {
 
     protected lateinit var viewModel: VM
         private set
