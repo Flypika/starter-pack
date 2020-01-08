@@ -1,9 +1,14 @@
 package com.flypika.pack.ui.livedata.manager
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.Lifecycle
 import com.flypika.pack.ui.livedata.LiveEvent
+import java.lang.IllegalStateException
 
 class LiveEventManager<E : Any> {
+
+    private val handler = Handler(Looper.getMainLooper())
 
     private val map: MutableMap<String, LiveEvent<E>> = HashMap()
 
@@ -27,6 +32,9 @@ class LiveEventManager<E : Any> {
     }
 
     fun setEvent(strategy: Strategy = Strategy.ONE_EXECUTE, event: E) {
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            throw IllegalStateException("setEvent not on main thread")
+        }
         sendEvent(event, strategy, LiveEvent<E>::setValue)
     }
 
@@ -52,11 +60,13 @@ class LiveEventManager<E : Any> {
     }
 
     private fun createLiveEvent() = LiveEvent<E>().also { liveEvent ->
-        observers.forEach {
-            liveEvent.observe(
-                { it.first },
-                it.second
-            )
+        handler.post {
+            observers.forEach {
+                liveEvent.observe(
+                    { it.first },
+                    it.second
+                )
+            }
         }
     }
 
