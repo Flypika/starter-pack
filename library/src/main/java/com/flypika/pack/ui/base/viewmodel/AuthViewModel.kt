@@ -1,13 +1,12 @@
 package com.flypika.pack.ui.base.viewmodel
 
 import com.flypika.pack.util.api.ResultWrapper
-import com.flypika.pack.util.api.safeApiCall
 import retrofit2.HttpException
 
 abstract class AuthViewModel<A : ViewAction> : StarterViewModel<A>() {
 
-    protected suspend inline fun <T> request(crossinline block: suspend () -> T): ResultWrapper<T> {
-        val result: ResultWrapper<T> = safeApiCall(block)
+    protected suspend inline fun <T> request(crossinline block: suspend () -> ResultWrapper<T>): ResultWrapper<T> {
+        val result: ResultWrapper<T> = block()
 
         if (result is ResultWrapper.Failure &&
             result.throwable is HttpException &&
