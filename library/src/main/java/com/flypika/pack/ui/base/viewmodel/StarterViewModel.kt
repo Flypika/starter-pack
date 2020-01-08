@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.crashlytics.android.Crashlytics
 import com.flypika.pack.ui.livedata.manager.LiveEventManager
 import com.flypika.pack.util.TAG
 import com.flypika.pack.util.api.ApiUtil
@@ -29,6 +30,8 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
     }
 
     fun logError(e: Throwable) {
+        Crashlytics.logException(e)
+
         val message = Log.getStackTraceString(e)
         Log.e(TAG, message)
     }

@@ -1,19 +1,22 @@
 package com.flypika.pack.ui.base.activity
 
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
+import com.flypika.pack.R
 import com.flypika.pack.ui.base.fragment.OnBackListener
 import com.flypika.pack.ui.dialog.LoadingDialog
 import com.flypika.pack.ui.util.transaction
+import com.flypika.pack.util.permission.OnPermissionRequestListener
 import com.flypika.pack.util.permission.impl.ActivityPermissionRequester
 import dagger.android.support.DaggerAppCompatActivity
 
 abstract class StarterActivity : DaggerAppCompatActivity() {
 
-    protected val permissionRequester = ActivityPermissionRequester(this)
+    private val permissionRequester = ActivityPermissionRequester(this)
 
     private var loadingDialog: LoadingDialog? = null
 
@@ -97,5 +100,24 @@ abstract class StarterActivity : DaggerAppCompatActivity() {
         ) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
+    }
+
+    open fun showMessage(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+    }
+
+    open fun showMessage(resId: Int) {
+        Toast.makeText(this, resId, Toast.LENGTH_LONG).show()
+    }
+
+    open fun showUnknownError() {
+        showMessage(R.string.unknown_error)
+    }
+
+    open fun checkPermission(
+        permissions: Array<String>,
+        onPermissionRequestListener: OnPermissionRequestListener
+    ) {
+        permissionRequester.tryRequestPermission(permissions, onPermissionRequestListener)
     }
 }

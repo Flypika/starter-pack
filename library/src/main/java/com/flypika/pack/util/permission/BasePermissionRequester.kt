@@ -12,7 +12,7 @@ import java.util.*
 
 abstract class BasePermissionRequester {
 
-    private var currentRequestCode: Short = Random().nextInt().toShort()
+    private var currentRequestCode: Short = 1
     private val permissionsMap = SparseArray<HashSet<String>>()
     private val listenersMap = SparseArray<OnPermissionRequestListener>()
 
@@ -27,13 +27,17 @@ abstract class BasePermissionRequester {
         permissions: HashSet<String>,
         listener: OnPermissionRequestListener
     ): Int {
-        if (currentRequestCode < 1) {
-            currentRequestCode = 1
-        }
+        checkRequestCode()
         val requestCode = currentRequestCode++.toInt()
         permissionsMap.append(requestCode, permissions)
         listenersMap.append(requestCode, listener)
         return requestCode
+    }
+
+    private fun checkRequestCode() {
+        if (currentRequestCode < 1) {
+            currentRequestCode = 1
+        }
     }
 
     fun tryRequestPermission(

@@ -61,6 +61,6 @@ class LiveEventManager<E : Any> {
     }
 
     private fun getKey(event: E, strategy: Strategy) =
-        "${event::class.java.name} ${strategy.name}"
+        "${event::class.java.name}${strategy.name}"
 
 }
