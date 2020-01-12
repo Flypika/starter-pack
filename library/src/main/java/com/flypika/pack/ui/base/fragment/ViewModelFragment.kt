@@ -36,6 +36,11 @@ abstract class ViewModelFragment<A : ViewAction, VM : StarterViewModel<A>, DB : 
         super.onCreate(savedInstanceState)
         viewModel = createViewModel()
         setupViewActionObserver()
+        observeLoading()
+    }
+
+    private fun observeLoading() {
+        viewModel.loadingLiveData.observe(this, loadingObserver)
     }
 
     private fun setupViewActionObserver() {

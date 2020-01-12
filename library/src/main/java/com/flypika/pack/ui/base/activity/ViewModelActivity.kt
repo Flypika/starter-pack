@@ -33,6 +33,11 @@ abstract class ViewModelActivity<A : ViewAction, VM : StarterViewModel<A>, DB : 
         viewModel = createViewModel()
         binding.setVariable(viewModelVariableId, viewModel)
         setupViewActionObserver()
+        observeLoading()
+    }
+
+    private fun observeLoading() {
+        viewModel.loadingLiveData.observe(this, loadingObserver)
     }
 
     protected open fun createViewModel(): VM =
