@@ -4,11 +4,14 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.crashlytics.android.Crashlytics
 import com.flypika.pack.ui.livedata.manager.LiveEventManager
 import com.flypika.pack.util.TAG
 import com.flypika.pack.util.api.ApiUtil
 import com.flypika.pack.util.api.ResultWrapper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 abstract class StarterViewModel<A : ViewAction> : ViewModel() {
@@ -67,5 +70,15 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
             is ResultWrapper.Success -> block(this.value)
             is ResultWrapper.Failure -> handleServerError(this.throwable)
         }
+    }
+
+    protected inline fun launch(crossinline block: suspend () -> Unit) {
+        load { launch { block() } }
+    }
+
+    protected inline fun load(block: CoroutineScope.() -> Unit) {
+        showLoading()
+        viewModelScope.block()
+        hideLoading()
     }
 }
