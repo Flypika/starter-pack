@@ -11,6 +11,7 @@ import com.flypika.pack.util.TAG
 import com.flypika.pack.util.api.ApiUtil
 import com.flypika.pack.util.api.ResultWrapper
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -73,7 +74,11 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
     }
 
     protected inline fun launch(crossinline block: suspend () -> Unit) {
-        load { launch { block() } }
+        load {
+            launch(Dispatchers.IO) {
+                block()
+            }
+        }
     }
 
     protected inline fun load(block: CoroutineScope.() -> Unit) {
