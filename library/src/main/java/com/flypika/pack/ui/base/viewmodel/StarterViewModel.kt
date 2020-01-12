@@ -26,11 +26,11 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         value = false
     }
 
-    protected fun showLoading() {
+    fun showLoading() {
         loadingLiveData.postValue(true)
     }
 
-    protected fun hideLoading() {
+    fun hideLoading() {
         loadingLiveData.postValue(false)
     }
 
@@ -74,16 +74,10 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
     }
 
     protected inline fun launch(crossinline block: suspend () -> Unit) {
-        load {
-            launch(Dispatchers.IO) {
-                block()
-            }
-        }
-    }
-
-    protected inline fun load(block: CoroutineScope.() -> Unit) {
         showLoading()
-        viewModelScope.block()
-        hideLoading()
+        viewModelScope.launch(Dispatchers.IO) {
+            block()
+            hideLoading()
+        }
     }
 }
