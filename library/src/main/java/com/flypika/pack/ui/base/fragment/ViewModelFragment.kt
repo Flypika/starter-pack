@@ -40,7 +40,7 @@ abstract class ViewModelFragment<A : ViewAction, VM : StarterViewModel<A>, DB : 
     }
 
     private fun observeLoading() {
-        viewModel.loadingLiveData.observe(this, loadingObserver)
+        viewModel.loadingLiveData.observe(viewLifecycleOwner, loadingObserver)
     }
 
     private fun setupViewActionObserver() {
