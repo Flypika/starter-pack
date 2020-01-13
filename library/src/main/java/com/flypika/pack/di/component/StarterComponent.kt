@@ -2,12 +2,14 @@ package com.flypika.pack.di.component
 
 import android.content.Context
 import com.flypika.pack.di.qualifier.ViewModelVariableIdQualifier
+import com.flypika.pack.di.scope.StarterScope
 import com.flypika.pack.util.validation.impl.EmailValidator
 import com.flypika.pack.util.validation.module.ValidatorModule
 import dagger.BindsInstance
 import dagger.Component
 
 @Component(modules = [ValidatorModule::class])
+@StarterScope
 interface StarterComponent {
 
     @ViewModelVariableIdQualifier
