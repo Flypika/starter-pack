@@ -18,7 +18,7 @@ abstract class ViewModelFragment<A : ViewAction, VM : StarterViewModel<A>, DB : 
     protected lateinit var viewModel: VM
         private set
 
-    protected abstract var viewActionHandler: A
+    protected abstract val viewActionHandler: A
 
     @JvmField
     @field:[Inject ViewModelVariableIdQualifier]
