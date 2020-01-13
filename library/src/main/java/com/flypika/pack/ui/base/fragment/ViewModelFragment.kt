@@ -32,13 +32,6 @@ abstract class ViewModelFragment<A : ViewAction, VM : StarterViewModel<A>, DB : 
     protected open fun createViewModel(): VM =
         ViewModelProviders.of(this, viewModelFactory)[viewModelClass.java]
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = createViewModel()
-        setupViewActionObserver()
-        observeLoading()
-    }
-
     private fun observeLoading() {
         viewModel.loadingLiveData.observe(viewLifecycleOwner, loadingObserver)
     }
@@ -50,7 +43,10 @@ abstract class ViewModelFragment<A : ViewAction, VM : StarterViewModel<A>, DB : 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel = createViewModel()
         binding.setVariable(viewModelVariableId, viewModel)
+        setupViewActionObserver()
+        observeLoading()
     }
 
     override fun showMessage(msg: String) = super.showMessage(msg)
