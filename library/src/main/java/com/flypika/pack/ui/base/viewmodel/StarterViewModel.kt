@@ -10,12 +10,14 @@ import com.flypika.pack.ui.livedata.manager.LiveEventManager
 import com.flypika.pack.util.TAG
 import com.flypika.pack.util.api.ApiUtil
 import com.flypika.pack.util.api.ResultWrapper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 abstract class StarterViewModel<A : ViewAction> : ViewModel() {
+
+    val viewModelScope: CoroutineScope get() = (this as ViewModel).viewModelScope + CoroutineExceptionHandler { _, throwable ->
+        Log.e(Thread.currentThread().name, Log.getStackTraceString(throwable))
+    }
 
     @Inject
     protected lateinit var context: Context
