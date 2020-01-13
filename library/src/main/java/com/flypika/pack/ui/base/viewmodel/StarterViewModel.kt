@@ -17,6 +17,7 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
 
     val viewModelScope: CoroutineScope get() = (this as ViewModel).viewModelScope + CoroutineExceptionHandler { _, throwable ->
         Log.e(Thread.currentThread().name, Log.getStackTraceString(throwable))
+        throw throwable
     }
 
     @Inject
