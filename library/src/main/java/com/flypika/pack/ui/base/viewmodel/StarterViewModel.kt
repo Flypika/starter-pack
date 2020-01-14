@@ -15,10 +15,11 @@ import javax.inject.Inject
 
 abstract class StarterViewModel<A : ViewAction> : ViewModel() {
 
-    val viewModelScope: CoroutineScope get() = (this as ViewModel).viewModelScope + CoroutineExceptionHandler { _, throwable ->
-        Log.e(Thread.currentThread().name, Log.getStackTraceString(throwable))
-        throw throwable
-    }
+    val viewModelScope: CoroutineScope
+        get() = (this as ViewModel).viewModelScope + CoroutineExceptionHandler { _, throwable ->
+            Log.e(Thread.currentThread().name, Log.getStackTraceString(throwable))
+            throw throwable
+        }
 
     @Inject
     protected lateinit var context: Context
@@ -75,6 +76,17 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
             is ResultWrapper.Failure -> handleServerError(this.throwable)
         }
     }
+
+    protected inline fun <T> ResultWrapper<T>.handle(
+        onSuccess: (T) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        when (this) {
+            is ResultWrapper.Success -> onSuccess(this.value)
+            is ResultWrapper.Failure -> onError(this.throwable)
+        }
+    }
+
 
     protected inline fun launch(crossinline block: suspend () -> Unit) {
         showLoading()
