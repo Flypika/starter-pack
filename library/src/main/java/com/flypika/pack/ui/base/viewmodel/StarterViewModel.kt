@@ -45,8 +45,7 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         Log.e(TAG, message)
     }
 
-    protected fun handleServerError(throwable: Throwable) {
-        hideLoading()
+    protected open fun handleServerError(throwable: Throwable) {
         viewActionManager.postEvent {
             val msg = ApiUtil.getApiErrorMessage(context, throwable)
             showMessage(msg)
