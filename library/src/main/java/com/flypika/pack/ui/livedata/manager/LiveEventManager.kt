@@ -35,23 +35,15 @@ class LiveEventManager<E : Any> {
         if (Looper.myLooper() != Looper.getMainLooper()) {
             throw IllegalStateException("setEvent not on main thread")
         }
-        sendEvent(event, strategy, LiveEvent<E>::setValue)
+        val liveEvent: LiveEvent<E> = getLiveEvent(event, strategy)
+        when (strategy) {
+            Strategy.ONE_EXECUTE -> liveEvent.value = event
+            Strategy.SKIP -> if (liveEvent.hasActiveObservers()) liveEvent.value = event
+        }
     }
 
     fun postEvent(strategy: Strategy = Strategy.ONE_EXECUTE, event: E) {
-        sendEvent(event, strategy, LiveEvent<E>::postValue)
-    }
-
-    private inline fun sendEvent(
-        event: E,
-        strategy: Strategy,
-        send: LiveEvent<E>.(E) -> Unit
-    ) {
-        val liveEvent: LiveEvent<E> = getLiveEvent(event, strategy)
-        when (strategy) {
-            Strategy.ONE_EXECUTE -> liveEvent.send(event)
-            Strategy.SKIP -> if (liveEvent.hasActiveObservers()) liveEvent.send(event)
-        }
+        handler.post { setEvent(strategy, event) }
     }
 
     private fun getLiveEvent(event: E, strategy: Strategy): LiveEvent<E> {
@@ -60,17 +52,14 @@ class LiveEventManager<E : Any> {
     }
 
     private fun createLiveEvent() = LiveEvent<E>().also { liveEvent ->
-        handler.post {
-            observers.forEach {
-                liveEvent.observe(
-                    { it.first },
-                    it.second
-                )
-            }
+        observers.forEach {
+            liveEvent.observe(
+                { it.first },
+                it.second
+            )
         }
     }
 
     private fun getKey(event: E, strategy: Strategy) =
         "${event::class.java.name}${strategy.name}"
-
 }
