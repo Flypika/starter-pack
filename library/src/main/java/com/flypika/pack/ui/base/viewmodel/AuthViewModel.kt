@@ -6,6 +6,8 @@ import retrofit2.HttpException
 abstract class AuthViewModel<A : ViewAction> : StarterViewModel<A>() {
 
     protected suspend inline fun <T> request(crossinline block: suspend () -> ResultWrapper<T>): ResultWrapper<T> {
+        onRequest()
+
         val result: ResultWrapper<T> = block()
 
         if (result is ResultWrapper.Failure &&
@@ -19,4 +21,6 @@ abstract class AuthViewModel<A : ViewAction> : StarterViewModel<A>() {
     }
 
     protected abstract fun onUnauthorized()
+
+    protected open suspend fun onRequest() = Unit
 }
