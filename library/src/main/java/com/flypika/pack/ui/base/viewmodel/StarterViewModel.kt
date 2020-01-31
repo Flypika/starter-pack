@@ -8,12 +8,18 @@ import androidx.lifecycle.viewModelScope
 import com.crashlytics.android.Crashlytics
 import com.flypika.pack.ui.livedata.manager.LiveEventManager
 import com.flypika.pack.util.TAG
-import com.flypika.pack.util.api.ApiUtil
 import com.flypika.pack.util.api.ResultWrapper
 import kotlinx.coroutines.*
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 
 abstract class StarterViewModel<A : ViewAction> : ViewModel() {
+
+    protected enum class Error {
+        INTERNET, TIMEOUT, UNKNOWN
+    }
 
     val viewModelScope: CoroutineScope
         get() = (this as ViewModel).viewModelScope + CoroutineExceptionHandler { _, throwable ->
@@ -47,15 +53,12 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
 
     protected open fun handleServerError(throwable: Throwable) {
         viewActionManager.postEvent {
-            val msg = ApiUtil.getApiErrorMessage(context, throwable)
-            showMessage(msg)
+            showMessage(throwable.toError().toMessage())
         }
         logError(throwable)
     }
 
-    protected fun showUnknownError() {
-        viewActionManager.postEvent(event = ViewAction::showUnknownError)
-    }
+    protected abstract fun Error.toMessage(): String
 
     protected fun finishScreen() {
         viewActionManager.postEvent(event = ViewAction::finishScreen)
@@ -93,5 +96,11 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
             block()
             hideLoading()
         }
+    }
+
+    private fun Throwable.toError(): Error = when (this) {
+        is UnknownHostException -> Error.INTERNET
+        is SocketTimeoutException, is TimeoutException -> Error.TIMEOUT
+        else -> Error.UNKNOWN
     }
 }

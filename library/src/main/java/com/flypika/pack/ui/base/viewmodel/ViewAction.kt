@@ -8,8 +8,6 @@ interface ViewAction {
 
     fun showMessage(resId: Int)
 
-    fun showUnknownError()
-
     fun finishScreen()
 
     fun checkPermission(

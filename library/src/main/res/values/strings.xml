@@ -1,5 +1,0 @@
-<resources>
-    <string name="unknown_error">Unknown Error</string>
-    <string name="no_internet_error">There is currently no internet connection. Please try again later.</string>
-    <string name="time_out_exception">Socket Time out. Please try again.</string>
-</resources>

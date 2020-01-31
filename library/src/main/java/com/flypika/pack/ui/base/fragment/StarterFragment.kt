@@ -72,10 +72,6 @@ abstract class StarterFragment : DaggerFragment() {
         Toast.makeText(context, resId, Toast.LENGTH_LONG).show()
     }
 
-    open fun showUnknownError() {
-        showMessage(R.string.unknown_error)
-    }
-
     open fun finishScreen() {
         parentFragment?.childFragmentManager?.popBackStack() ?: kotlin.run {
             if (activity?.supportFragmentManager?.backStackEntryCount ?: 0 > 0) {

@@ -57,8 +57,6 @@ abstract class ViewModelActivity<A : ViewAction, VM : StarterViewModel<A>, DB : 
 
     override fun showMessage(resId: Int) = super.showMessage(resId)
 
-    override fun showUnknownError() = super.showUnknownError()
-
     override fun checkPermission(
         permissions: Array<String>,
         onPermissionRequestListener: OnPermissionRequestListener

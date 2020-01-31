@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
-import com.flypika.pack.R
 import com.flypika.pack.ui.base.fragment.OnBackListener
 import com.flypika.pack.ui.dialog.LoadingDialog
 import com.flypika.pack.ui.util.transaction
@@ -108,10 +107,6 @@ abstract class StarterActivity : DaggerAppCompatActivity() {
 
     open fun showMessage(resId: Int) {
         Toast.makeText(this, resId, Toast.LENGTH_LONG).show()
-    }
-
-    open fun showUnknownError() {
-        showMessage(R.string.unknown_error)
     }
 
     open fun checkPermission(

@@ -53,8 +53,6 @@ abstract class ViewModelFragment<A : ViewAction, VM : StarterViewModel<A>, DB : 
 
     override fun showMessage(resId: Int) = super.showMessage(resId)
 
-    override fun showUnknownError() = super.showUnknownError()
-
     override fun finishScreen() = super.finishScreen()
 
     override fun checkPermission(
