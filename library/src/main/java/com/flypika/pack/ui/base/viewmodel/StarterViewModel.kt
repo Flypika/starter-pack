@@ -58,12 +58,14 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
 
     protected open fun handleServerError(throwable: Throwable) {
         viewActionManager.postEvent {
-            showMessage(throwable.toError().toMessage())
+            throwable.toError()
+                .toMessage()
+                ?.let { showMessage(it) }
         }
         logError(throwable)
     }
 
-    protected open fun Error.toMessage(): String = when (this) {
+    protected open fun Error.toMessage(): String? = when (this) {
         is Error.Internet -> R.string.no_internet_error
         is Error.Timeout -> R.string.time_out_exception
         else -> R.string.unknown_error
