@@ -3,7 +3,6 @@ package com.flypika.pack.ui.base.fragment
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.flypika.pack.R
 import com.flypika.pack.ui.dialog.LoadingDialog
 import com.flypika.pack.ui.util.transaction
 import com.flypika.pack.util.permission.OnPermissionRequestListener

@@ -6,10 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.crashlytics.android.Crashlytics
+import com.flypika.pack.R
 import com.flypika.pack.ui.livedata.manager.LiveEventManager
 import com.flypika.pack.util.TAG
 import com.flypika.pack.util.api.ResultWrapper
 import kotlinx.coroutines.*
+import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
@@ -17,8 +19,11 @@ import javax.inject.Inject
 
 abstract class StarterViewModel<A : ViewAction> : ViewModel() {
 
-    protected enum class Error {
-        INTERNET, TIMEOUT, UNKNOWN
+    protected sealed class Error {
+        object Internet : Error()
+        object Timeout : Error()
+        data class Http(val e: HttpException) : Error()
+        data class Unknown(val throwable: Throwable) : Error()
     }
 
     val viewModelScope: CoroutineScope
@@ -58,7 +63,11 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         logError(throwable)
     }
 
-    protected abstract fun Error.toMessage(): String
+    protected open fun Error.toMessage(): String = when (this) {
+        is Error.Internet -> R.string.no_internet_error
+        is Error.Timeout -> R.string.time_out_exception
+        else -> R.string.unknown_error
+    }.let { context.getString(it) }
 
     protected fun finishScreen() {
         viewActionManager.postEvent(event = ViewAction::finishScreen)
@@ -99,8 +108,9 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
     }
 
     private fun Throwable.toError(): Error = when (this) {
-        is UnknownHostException -> Error.INTERNET
-        is SocketTimeoutException, is TimeoutException -> Error.TIMEOUT
-        else -> Error.UNKNOWN
+        is UnknownHostException -> Error.Internet
+        is SocketTimeoutException, is TimeoutException -> Error.Timeout
+        is HttpException -> Error.Http(this)
+        else -> Error.Unknown(this)
     }
 }
