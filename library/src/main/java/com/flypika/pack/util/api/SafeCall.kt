@@ -12,7 +12,11 @@ suspend inline fun <T> safeApiCall(crossinline block: suspend () -> T): ResultWr
 object VoidSuccess : ResultWrapper.Success<Unit>(Unit)
 
 suspend inline fun <T> voidApiCall(crossinline block: suspend () -> Response<T>): ResultWrapper<Unit> {
-    val response = block()
+    val response = try {
+        block()
+    } catch (throwable: Throwable) {
+        return ResultWrapper.Failure(throwable)
+    }
     return if (response.isSuccessful) VoidSuccess
     else ResultWrapper.Failure(HttpException(response))
 }
