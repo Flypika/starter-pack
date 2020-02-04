@@ -9,7 +9,7 @@ import com.flypika.pack.util.permission.OnPermissionRequestListener
 import com.flypika.pack.util.permission.impl.FragmentPermissionRequester
 import dagger.android.support.DaggerFragment
 
-abstract class StarterFragment : DaggerFragment() {
+abstract class StarterFragment : DaggerFragment(), OnBackListener {
 
     private val permissionRequester = FragmentPermissionRequester(this)
 

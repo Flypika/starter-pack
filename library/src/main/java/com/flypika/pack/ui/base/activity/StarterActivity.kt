@@ -13,6 +13,7 @@ import com.flypika.pack.util.permission.OnPermissionRequestListener
 import com.flypika.pack.util.permission.impl.ActivityPermissionRequester
 import dagger.android.support.DaggerAppCompatActivity
 
+
 abstract class StarterActivity : DaggerAppCompatActivity() {
 
     private val permissionRequester = ActivityPermissionRequester(this)
@@ -38,6 +39,16 @@ abstract class StarterActivity : DaggerAppCompatActivity() {
             }
 
         if (shouldCallSuper) {
+            for (child in supportFragmentManager.fragments) {
+                if (child.isVisible) {
+                    child.childFragmentManager.let {
+                        if (it.backStackEntryCount > 0) {
+                            it.popBackStack()
+                            return
+                        }
+                    }
+                }
+            }
             super.onBackPressed()
         }
     }
