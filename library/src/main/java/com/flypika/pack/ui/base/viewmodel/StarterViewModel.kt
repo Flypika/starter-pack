@@ -56,7 +56,7 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         Log.e(TAG, message)
     }
 
-    protected open fun handleServerError(throwable: Throwable) {
+    open fun handleServerError(throwable: Throwable) {
         viewActionManager.postEvent {
             throwable.toError()
                 .toMessage()
@@ -71,26 +71,26 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         else -> R.string.unknown_error
     }.let { context.getString(it) }
 
-    protected fun finishScreen() {
+    fun finishScreen() {
         viewActionManager.postEvent(event = ViewAction::finishScreen)
     }
 
-    protected fun showMessage(msg: String) {
+    fun showMessage(msg: String) {
         viewActionManager.postEvent { showMessage(msg) }
     }
 
-    protected fun showMessage(msg: Int) {
+    fun showMessage(msg: Int) {
         viewActionManager.postEvent { showMessage(msg) }
     }
 
-    protected inline fun <T> ResultWrapper<T>.doOnSuccess(block: (T) -> Unit) {
+    inline fun <T> ResultWrapper<T>.doOnSuccess(block: (T) -> Unit) {
         when (this) {
             is ResultWrapper.Success -> block(this.value)
             is ResultWrapper.Failure -> handleServerError(this.throwable)
         }
     }
 
-    protected inline fun <T> ResultWrapper<T>.handle(
+    inline fun <T> ResultWrapper<T>.handle(
         onSuccess: (T) -> Unit,
         onError: (Throwable) -> Unit
     ) {
@@ -100,8 +100,7 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         }
     }
 
-
-    protected inline fun launch(crossinline block: suspend () -> Unit) {
+    inline fun launch(crossinline block: suspend () -> Unit) {
         showLoading()
         viewModelScope.launch(Dispatchers.IO) {
             block()
