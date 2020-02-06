@@ -15,8 +15,7 @@ import kotlin.reflect.KClass
 abstract class ViewModelFragment<A : ViewAction, VM : StarterViewModel<A>, DB : ViewDataBinding>
     : DataBindingFragment<DB>(), ViewAction {
 
-    protected lateinit var viewModel: VM
-        private set
+    protected val viewModel: VM by lazy { createViewModel() }
 
     protected abstract val viewActionHandler: A
 
@@ -43,7 +42,6 @@ abstract class ViewModelFragment<A : ViewAction, VM : StarterViewModel<A>, DB : 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = createViewModel()
         binding.setVariable(viewModelVariableId, viewModel)
         setupViewActionObserver()
         observeLoading()

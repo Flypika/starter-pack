@@ -14,8 +14,7 @@ import kotlin.reflect.KClass
 abstract class ViewModelActivity<A : ViewAction, VM : StarterViewModel<A>, DB : ViewDataBinding>
     : DataBindingActivity<DB>(), ViewAction {
 
-    protected lateinit var viewModel: VM
-        private set
+    protected val viewModel: VM by lazy { createViewModel() }
 
     protected abstract val viewActionHandler: A
 
@@ -30,7 +29,6 @@ abstract class ViewModelActivity<A : ViewAction, VM : StarterViewModel<A>, DB : 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = createViewModel()
         binding.setVariable(viewModelVariableId, viewModel)
         setupViewActionObserver()
         observeLoading()
