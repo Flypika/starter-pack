@@ -1,26 +1,27 @@
 package com.flypika.pack.ui.base.viewmodel
 
 import com.flypika.pack.util.api.ResultWrapper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
 abstract class AuthViewModel<A : ViewAction> : StarterViewModel<A>() {
 
-    protected suspend inline fun <T> request(crossinline block: suspend () -> ResultWrapper<T>): ResultWrapper<T> {
-        onRequest()
+    protected suspend inline fun <T> authorized(crossinline block: suspend () -> ResultWrapper<T>): ResultWrapper<T> {
+        onAuthRequest()
+        return block().apply { checkUnauthorized() }
+    }
 
-        val result: ResultWrapper<T> = block()
-
-        if (result is ResultWrapper.Failure &&
-            result.throwable is HttpException &&
-            result.throwable.code() == 401
+    protected suspend fun <T> ResultWrapper<T>.checkUnauthorized() {
+        if (this is ResultWrapper.Failure &&
+            this.throwable is HttpException &&
+            this.throwable.code() == 401
         ) {
-            onUnauthorized()
+            withContext(Dispatchers.Main) { onUnauthorized() }
         }
-
-        return result
     }
 
     protected abstract fun onUnauthorized()
 
-    protected open suspend fun onRequest() = Unit
+    protected open suspend fun onAuthRequest() = Unit
 }

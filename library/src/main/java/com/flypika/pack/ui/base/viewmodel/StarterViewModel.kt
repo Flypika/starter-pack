@@ -16,6 +16,7 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 abstract class StarterViewModel<A : ViewAction> : ViewModel() {
 
@@ -100,9 +101,12 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         }
     }
 
-    inline fun launch(crossinline block: suspend () -> Unit) {
+    inline fun launch(
+        context: CoroutineContext = Dispatchers.IO,
+        crossinline block: suspend () -> Unit
+    ) {
         showLoading()
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(context) {
             block()
             hideLoading()
         }
