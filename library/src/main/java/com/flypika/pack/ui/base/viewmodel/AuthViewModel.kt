@@ -7,12 +7,12 @@ import retrofit2.HttpException
 
 abstract class AuthViewModel<A : ViewAction> : StarterViewModel<A>() {
 
-    protected suspend inline fun <T> authorized(crossinline block: suspend () -> ResultWrapper<T>): ResultWrapper<T> {
+    suspend inline fun <T> authorized(crossinline block: suspend () -> ResultWrapper<T>): ResultWrapper<T> {
         onAuthRequest()
         return block().apply { checkUnauthorized() }
     }
 
-    protected suspend fun <T> ResultWrapper<T>.checkUnauthorized() {
+    suspend fun <T> ResultWrapper<T>.checkUnauthorized() {
         if (this is ResultWrapper.Failure &&
             this.throwable is HttpException &&
             this.throwable.code() == 401
@@ -23,5 +23,5 @@ abstract class AuthViewModel<A : ViewAction> : StarterViewModel<A>() {
 
     protected abstract fun onUnauthorized()
 
-    protected open suspend fun onAuthRequest() = Unit
+    open suspend fun onAuthRequest() = Unit
 }
