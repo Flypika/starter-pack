@@ -1,4 +1,4 @@
-package com.flypika.pack.util
+package com.flypika.pack.ext
 
 import android.content.Context
 import android.content.Intent

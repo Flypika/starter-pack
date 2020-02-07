@@ -7,7 +7,7 @@ import android.os.Build
 import android.util.Log
 import android.util.SparseArray
 import androidx.core.content.ContextCompat
-import com.flypika.pack.util.TAG
+import com.flypika.pack.ext.TAG
 import java.util.*
 
 abstract class BasePermissionRequester {

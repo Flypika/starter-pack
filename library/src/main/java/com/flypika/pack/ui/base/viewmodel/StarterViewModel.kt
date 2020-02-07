@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.crashlytics.android.Crashlytics
 import com.flypika.pack.R
 import com.flypika.pack.ui.livedata.manager.LiveEventManager
-import com.flypika.pack.util.TAG
+import com.flypika.pack.ext.TAG
 import com.flypika.pack.util.api.ResultWrapper
 import kotlinx.coroutines.*
 import retrofit2.HttpException
@@ -88,16 +88,6 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         when (this) {
             is ResultWrapper.Success -> block(this.value)
             is ResultWrapper.Failure -> handleServerError(this.throwable)
-        }
-    }
-
-    inline fun <T> ResultWrapper<T>.handle(
-        onSuccess: (T) -> Unit,
-        onError: (Throwable) -> Unit
-    ) {
-        when (this) {
-            is ResultWrapper.Success -> onSuccess(this.value)
-            is ResultWrapper.Failure -> onError(this.throwable)
         }
     }
 
