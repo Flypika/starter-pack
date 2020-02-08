@@ -20,7 +20,7 @@ abstract class StarterActivity : DaggerAppCompatActivity() {
 
     private var loadingDialog: LoadingDialog? = null
 
-    protected val loadingObserver = Observer<Boolean> { value: Boolean? ->
+    protected open val loadingObserver = Observer<Boolean> { value: Boolean? ->
         if (value != null && value) {
             showLoadingDialog()
         } else {
