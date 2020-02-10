@@ -13,10 +13,13 @@ abstract class AuthViewModel<A : ViewAction> : StarterViewModel<A>() {
     }
 
     suspend fun <T> ResultWrapper<T>.checkUnauthorized() {
-        if (this is ResultWrapper.Failure &&
-            this.throwable is HttpException &&
-            this.throwable.code() == 401
-        ) {
+        if (this is ResultWrapper.Failure) {
+            throwable.checkUnauthorized()
+        }
+    }
+
+    protected suspend fun Throwable.checkUnauthorized() {
+        if (this is HttpException && code() == 401) {
             withContext(Dispatchers.Main) { onUnauthorized() }
         }
     }
