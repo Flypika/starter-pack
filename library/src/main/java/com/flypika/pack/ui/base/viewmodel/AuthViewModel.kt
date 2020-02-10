@@ -9,18 +9,20 @@ abstract class AuthViewModel<A : ViewAction> : StarterViewModel<A>() {
 
     suspend inline fun <T> authorized(crossinline block: suspend () -> ResultWrapper<T>): ResultWrapper<T> {
         onAuthRequest()
-        return block().apply { checkUnauthorized() }
+        return block().apply {
+            withContext(Dispatchers.Main) { checkUnauthorized() }
+        }
     }
 
-    suspend fun <T> ResultWrapper<T>.checkUnauthorized() {
+    fun <T> ResultWrapper<T>.checkUnauthorized() {
         if (this is ResultWrapper.Failure) {
             throwable.checkUnauthorized()
         }
     }
 
-    protected suspend fun Throwable.checkUnauthorized() {
+    protected fun Throwable.checkUnauthorized() {
         if (this is HttpException && code() == 401) {
-            withContext(Dispatchers.Main) { onUnauthorized() }
+            onUnauthorized()
         }
     }
 
