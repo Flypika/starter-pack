@@ -5,10 +5,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.crashlytics.android.Crashlytics
 import com.flypika.pack.R
+import com.flypika.pack.ext.log
 import com.flypika.pack.ui.livedata.manager.LiveEventManager
-import com.flypika.pack.ext.TAG
 import com.flypika.pack.util.api.ResultWrapper
 import kotlinx.coroutines.*
 import retrofit2.HttpException
@@ -50,20 +49,13 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         loadingLiveData.postValue(false)
     }
 
-    fun logError(e: Throwable) {
-        Crashlytics.logException(e)
-
-        val message = Log.getStackTraceString(e)
-        Log.e(TAG, message)
-    }
-
     open fun handleServerError(throwable: Throwable) {
         viewActionManager.postEvent {
             throwable.toError()
                 .toMessage()
                 ?.let { showMessage(it) }
         }
-        logError(throwable)
+        throwable.log()
     }
 
     protected open fun Error.toMessage(): String? = when (this) {
