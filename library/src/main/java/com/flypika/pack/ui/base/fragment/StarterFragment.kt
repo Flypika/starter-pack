@@ -81,7 +81,14 @@ abstract class StarterFragment : DaggerFragment(), OnBackListener {
         }
     }
 
-    open fun checkPermission(
+    open fun checkPermissions(
+        permissions: Array<String>,
+        onPermissionRequestListener: OnPermissionRequestListener
+    ) {
+        permissionRequester.checkPermissions(permissions, onPermissionRequestListener)
+    }
+
+    open fun requestPermissions(
         permissions: Array<String>,
         onPermissionRequestListener: OnPermissionRequestListener
     ) {

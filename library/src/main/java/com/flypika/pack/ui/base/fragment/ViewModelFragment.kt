@@ -53,8 +53,13 @@ abstract class ViewModelFragment<A : ViewAction, VM : StarterViewModel<A>, DB : 
 
     override fun finishScreen() = super.finishScreen()
 
-    override fun checkPermission(
+    override fun checkPermissions(
         permissions: Array<String>,
         onPermissionRequestListener: OnPermissionRequestListener
-    ) = super.checkPermission(permissions, onPermissionRequestListener)
+    ) = super.checkPermissions(permissions, onPermissionRequestListener)
+
+    override fun requestPermissions(
+        permissions: Array<String>,
+        onPermissionRequestListener: OnPermissionRequestListener
+    ) = super.requestPermissions(permissions, onPermissionRequestListener)
 }

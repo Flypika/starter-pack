@@ -120,7 +120,14 @@ abstract class StarterActivity : DaggerAppCompatActivity() {
         Toast.makeText(this, resId, Toast.LENGTH_LONG).show()
     }
 
-    open fun checkPermission(
+    open fun checkPermissions(
+        permissions: Array<String>,
+        onPermissionRequestListener: OnPermissionRequestListener
+    ) {
+        permissionRequester.checkPermissions(permissions, onPermissionRequestListener)
+    }
+
+    open fun requestPermissions(
         permissions: Array<String>,
         onPermissionRequestListener: OnPermissionRequestListener
     ) {

@@ -40,6 +40,24 @@ abstract class BasePermissionRequester {
         }
     }
 
+    fun checkPermissions(permissions: Array<out String>, listener: OnPermissionRequestListener) {
+        val granted = mutableListOf<String>()
+        val denied = mutableListOf<String>()
+        permissions.forEach {
+            if (ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED) {
+                granted += it
+            } else {
+                denied += it
+            }
+        }
+        if (granted.isNotEmpty()) {
+            listener.onPermissionsGranted(granted)
+        }
+        if (denied.isNotEmpty()) {
+            listener.onPermissionsDenied(denied)
+        }
+    }
+
     fun tryRequestPermission(
         arrayPermissions: Array<String>,
         listener: OnPermissionRequestListener

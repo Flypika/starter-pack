@@ -10,7 +10,12 @@ interface ViewAction {
 
     fun finishScreen()
 
-    fun checkPermission(
+    fun checkPermissions(
+        permissions: Array<String>,
+        onPermissionRequestListener: OnPermissionRequestListener
+    )
+
+    fun requestPermissions(
         permissions: Array<String>,
         onPermissionRequestListener: OnPermissionRequestListener
     )
