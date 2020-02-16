@@ -33,7 +33,7 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         }
 
     @Inject
-    protected lateinit var context: Context
+    lateinit var context: Context
 
     val viewActionManager = LiveEventManager<Action<A>>()
 
