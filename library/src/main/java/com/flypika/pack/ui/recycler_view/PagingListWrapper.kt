@@ -54,9 +54,7 @@ class PagingListWrapper<D>(
     }
 
     private fun checkNeedLoad(pos: Int) {
-        if (notRequestedPos - pos <= prefetchDistance &&
-            notRequestedPos <= data.size
-        ) {
+        if (notRequestedPos - pos <= prefetchDistance) {
             requestLoad()
         }
     }
