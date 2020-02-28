@@ -9,7 +9,6 @@ abstract class PagedAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.Adap
         set(value) {
             field = value
             field?.attachAdapter(this)
-            notifyDataSetChanged()
         }
 
     override fun getItemCount(): Int = pagingListWrapper?.itemCount ?: 0

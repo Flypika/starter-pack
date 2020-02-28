@@ -15,7 +15,7 @@ class PagingListWrapper<D>(
 
     private var data: List<D> = emptyList()
 
-    private var lastRequestedPos = 0
+    private var notRequestedPos = 0
 
     fun submitData(newData: List<D>) {
         val oldData = data
@@ -44,25 +44,26 @@ class PagingListWrapper<D>(
         return data[pos]
     }
 
-    internal val itemCount = data.size
+    internal val itemCount get() = data.size
 
     internal fun attachAdapter(pagedAdapter: PagedAdapter<D, *>) {
+        pagedAdapter.notifyDataSetChanged()
         this.pagedAdapter = pagedAdapter
         requestLoad()
     }
 
     private fun checkNeedLoad(pos: Int) {
-        if (lastRequestedPos - pos >= prefetchDistance &&
-            lastRequestedPos < data.size
+        if (notRequestedPos - pos <= prefetchDistance &&
+            notRequestedPos < data.size
         ) {
             requestLoad()
         }
     }
 
     private fun requestLoad() {
-        val pos = lastRequestedPos
+        val pos = notRequestedPos
         loadListener(pos, pageSize) { addData(it, pos) }
-        lastRequestedPos += pageSize - 1
+        notRequestedPos += pageSize
     }
 
     private fun getCallback(oldList: List<D>, newList: List<D>): DiffUtil.Callback =
