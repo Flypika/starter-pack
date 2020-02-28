@@ -13,7 +13,8 @@ class PagingListWrapper<D>(
 
     private lateinit var pagedAdapter: PagedAdapter<D, *>
 
-    private var data: List<D> = emptyList()
+    var data: List<D> = emptyList()
+        private set
 
     private var notRequestedPos = 0
 
