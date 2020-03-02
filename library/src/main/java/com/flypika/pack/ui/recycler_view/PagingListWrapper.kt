@@ -1,22 +1,14 @@
 package com.flypika.pack.ui.recycler_view
 
-import androidx.recyclerview.widget.DiffUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
 typealias LoadListener<D> = (start: Int, count: Int, onLoaded: (List<D>) -> Unit) -> Unit
 
 class PagingListWrapper<D>(
-    private val coroutineScope: CoroutineScope,
     private val pageSize: Int = DEFAULT_PAGE_SIZE,
     private val prefetchDistance: Int = DEFAULT_PREFETCH_DISTANCE,
-    private val diffUtilCallback: DiffUtil.ItemCallback<D>,
     private val loadListener: LoadListener<D>
 ) {
 
-    private lateinit var pagedAdapter: PagedAdapter<D, *>
+    private var pagedAdapter: PagedAdapter<D, *>? = null
 
     var data: List<D> = emptyList()
         private set
@@ -27,13 +19,7 @@ class PagingListWrapper<D>(
         val oldData = data
         data = newData
 
-        if (this::pagedAdapter.isInitialized) {
-            coroutineScope.launch {
-                val callback = getCallback(oldData, newData)
-                val result = DiffUtil.calculateDiff(callback)
-                withContext(Dispatchers.Main) { result.dispatchUpdatesTo(pagedAdapter) }
-            }
-        }
+        pagedAdapter?.onNewData(oldData, newData)
     }
 
     fun addData(newData: List<D>, requestedPos: Int) {
@@ -56,9 +42,12 @@ class PagingListWrapper<D>(
     internal val itemCount get() = data.size
 
     internal fun attachAdapter(pagedAdapter: PagedAdapter<D, *>) {
-        pagedAdapter.notifyDataSetChanged()
         this.pagedAdapter = pagedAdapter
         requestLoad()
+    }
+
+    internal fun detachAdapter() {
+        pagedAdapter = null
     }
 
     private fun checkNeedLoad(pos: Int) {
@@ -72,26 +61,6 @@ class PagingListWrapper<D>(
         loadListener(pos, pageSize) { addData(it, pos) }
         notRequestedPos += pageSize
     }
-
-    private fun getCallback(oldList: List<D>, newList: List<D>): DiffUtil.Callback =
-        object : DiffUtil.Callback() {
-
-            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                val old = oldList[oldItemPosition]
-                val new = newList[newItemPosition]
-                return diffUtilCallback.areItemsTheSame(old, new)
-            }
-
-            override fun getOldListSize(): Int = oldList.size
-
-            override fun getNewListSize(): Int = newList.size
-
-            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                val old = oldList[oldItemPosition]
-                val new = newList[newItemPosition]
-                return diffUtilCallback.areContentsTheSame(old, new)
-            }
-        }
 
     companion object {
 
