@@ -10,6 +10,6 @@ class ViewModelFactory<VM : StarterViewModel<*>> @Inject constructor(private val
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
         modelClass.cast(
-            viewModel.get().also { it.onInject() }
-    ) ?: throw ClassCastException()
+            viewModel.get().also { it.onInjected() }
+        ) ?: throw ClassCastException()
 }
