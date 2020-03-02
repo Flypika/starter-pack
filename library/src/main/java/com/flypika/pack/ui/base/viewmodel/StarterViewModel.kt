@@ -41,6 +41,11 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         value = false
     }
 
+    /**
+     * Dagger 2 callback called when all fields are injected therefore initialized
+     */
+    open fun onInject() {}
+
     fun showLoading() {
         loadingLiveData.postValue(true)
     }

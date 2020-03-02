@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 import javax.inject.Provider
 
-class ViewModelFactory<VM : ViewModel> @Inject constructor(private val viewModel: Provider<VM>) :
+class ViewModelFactory<VM : StarterViewModel<*>> @Inject constructor(private val viewModel: Provider<VM>) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        modelClass.cast(viewModel.get()) ?: throw ClassCastException()
+        modelClass.cast(
+            viewModel.get().also { it.onInject() }
+    ) ?: throw ClassCastException()
 }
