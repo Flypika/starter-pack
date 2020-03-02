@@ -15,6 +15,11 @@ class PagingListWrapper<D>(
 
     private var notRequestedPos = 0
 
+    fun adjustNotRequestedPos(adjustValue: Int) {
+        notRequestedPos += adjustValue
+        if (notRequestedPos < 0) notRequestedPos = 0
+    }
+
     fun submitData(newData: List<D>) {
         val oldData = data
         data = newData
