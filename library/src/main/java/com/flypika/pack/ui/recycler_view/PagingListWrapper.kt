@@ -1,10 +1,15 @@
 package com.flypika.pack.ui.recycler_view
 
 import androidx.recyclerview.widget.DiffUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 typealias LoadListener<D> = (start: Int, count: Int, onLoaded: (List<D>) -> Unit) -> Unit
 
 class PagingListWrapper<D>(
+    private val coroutineScope: CoroutineScope,
     private val pageSize: Int = DEFAULT_PAGE_SIZE,
     private val prefetchDistance: Int = DEFAULT_PREFETCH_DISTANCE,
     private val diffUtilCallback: DiffUtil.ItemCallback<D>,
@@ -23,8 +28,11 @@ class PagingListWrapper<D>(
         data = newData
 
         if (this::pagedAdapter.isInitialized) {
-            val callback = getCallback(oldData, newData)
-            DiffUtil.calculateDiff(callback).dispatchUpdatesTo(pagedAdapter)
+            coroutineScope.launch {
+                val callback = getCallback(oldData, newData)
+                val result = DiffUtil.calculateDiff(callback)
+                withContext(Dispatchers.Main) { result.dispatchUpdatesTo(pagedAdapter) }
+            }
         }
     }
 
