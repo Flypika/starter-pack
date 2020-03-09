@@ -18,6 +18,8 @@ abstract class StarterActivity : DaggerAppCompatActivity() {
 
     private val permissionRequester = ActivityPermissionRequester(this)
 
+    fun onBackPressedDefault() = super.onBackPressed()
+
     protected var loadingDialog: LoadingDialog? = null
 
     protected open val loadingObserver = Observer<Boolean> { value: Boolean? ->
@@ -49,7 +51,7 @@ abstract class StarterActivity : DaggerAppCompatActivity() {
                     }
                 }
             }
-            super.onBackPressed()
+            onBackPressedDefault()
         }
     }
 
