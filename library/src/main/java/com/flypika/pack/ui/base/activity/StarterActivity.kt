@@ -18,7 +18,7 @@ abstract class StarterActivity : DaggerAppCompatActivity() {
 
     private val permissionRequester = ActivityPermissionRequester(this)
 
-    private var loadingDialog: LoadingDialog? = null
+    protected var loadingDialog: LoadingDialog? = null
 
     protected open val loadingObserver = Observer<Boolean> { value: Boolean? ->
         if (value != null && value) {
