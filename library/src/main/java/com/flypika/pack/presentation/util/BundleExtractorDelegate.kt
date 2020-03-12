@@ -1,4 +1,4 @@
-package com.flypika.pack.presentation.ext
+package com.flypika.pack.presentation.util
 
 import android.app.Activity
 import android.os.Bundle
