@@ -1,4 +1,4 @@
-package com.flypika.pack.data.utils.api
+package com.flypika.pack.data.network
 
 import retrofit2.HttpException
 import retrofit2.Response

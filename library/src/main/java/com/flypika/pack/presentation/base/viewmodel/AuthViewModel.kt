@@ -1,6 +1,6 @@
 package com.flypika.pack.presentation.base.viewmodel
 
-import com.flypika.pack.data.utils.api.ResultWrapper
+import com.flypika.pack.data.network.ResultWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException

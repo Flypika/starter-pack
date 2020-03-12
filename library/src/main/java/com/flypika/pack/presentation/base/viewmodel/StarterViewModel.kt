@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flypika.pack.R
-import com.flypika.pack.data.utils.api.ResultWrapper
+import com.flypika.pack.data.network.ResultWrapper
 import com.flypika.pack.presentation.ext.log
 import com.flypika.pack.presentation.livedata.manager.LiveEventManager
 import kotlinx.coroutines.*

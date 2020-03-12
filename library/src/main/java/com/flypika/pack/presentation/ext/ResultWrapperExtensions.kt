@@ -1,6 +1,6 @@
 package com.flypika.pack.presentation.ext
 
-import com.flypika.pack.data.utils.api.ResultWrapper
+import com.flypika.pack.data.network.ResultWrapper
 
 inline fun <T> ResultWrapper<T>.handle(
     onSuccess: (T) -> Unit,
