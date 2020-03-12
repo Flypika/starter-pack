@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
-open class BaseCompositeDelegateAdapter<T>(
+open class BaseCompositeDelegateAdapter<T> protected constructor(
     typeToAdapterMap: SparseArray<IDelegateAdapter<*, *>>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

@@ -9,8 +9,8 @@ import kotlin.reflect.KProperty
  * @since 02.02.2019
  */
 
-fun SharedPreferences.string(
-    key: (KProperty<*>) -> String = KProperty<*>::name,
+inline fun SharedPreferences.string(
+    crossinline key: (KProperty<*>) -> String = KProperty<*>::name,
     defaultValue: String = ""
 ): ReadWriteProperty<Any, String?> =
     object : ReadWriteProperty<Any, String?> {
@@ -21,8 +21,8 @@ fun SharedPreferences.string(
             edit().putString(key(property), value).apply()
     }
 
-fun SharedPreferences.boolean(
-    key: (KProperty<*>) -> String = KProperty<*>::name,
+inline fun SharedPreferences.boolean(
+    crossinline key: (KProperty<*>) -> String = KProperty<*>::name,
     defaultValue: Boolean = false
 ): ReadWriteProperty<Any, Boolean> =
     object : ReadWriteProperty<Any, Boolean> {
@@ -33,8 +33,8 @@ fun SharedPreferences.boolean(
             edit().putBoolean(key(property), value).apply()
     }
 
-fun SharedPreferences.int(
-    key: (KProperty<*>) -> String = KProperty<*>::name,
+inline fun SharedPreferences.int(
+    crossinline key: (KProperty<*>) -> String = KProperty<*>::name,
     defaultValue: Int = 0
 ): ReadWriteProperty<Any, Int> =
     object : ReadWriteProperty<Any, Int> {
@@ -45,8 +45,8 @@ fun SharedPreferences.int(
             edit().putInt(key(property), value).apply()
     }
 
-fun SharedPreferences.long(
-    key: (KProperty<*>) -> String = KProperty<*>::name,
+inline fun SharedPreferences.long(
+    crossinline key: (KProperty<*>) -> String = KProperty<*>::name,
     defaultValue: Long = 0.toLong()
 ): ReadWriteProperty<Any, Long> =
     object : ReadWriteProperty<Any, Long> {
@@ -57,8 +57,8 @@ fun SharedPreferences.long(
             edit().putLong(key(property), value).apply()
     }
 
-fun SharedPreferences.float(
-    key: (KProperty<*>) -> String = KProperty<*>::name,
+inline fun SharedPreferences.float(
+    crossinline key: (KProperty<*>) -> String = KProperty<*>::name,
     defaultValue: Float = 0.toFloat()
 ): ReadWriteProperty<Any, Float> =
     object : ReadWriteProperty<Any, Float> {

@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 open class BaseViewHolder(parent: View) : RecyclerView.ViewHolder(parent) {
 
-    private var listener: ItemInflateListener? = null
+    private var listener: ItemPopulateListener? = null
 
-    fun setListener(listener: ItemInflateListener) {
+    fun setListener(listener: ItemPopulateListener) {
         this.listener = listener
     }
 
@@ -15,7 +15,7 @@ open class BaseViewHolder(parent: View) : RecyclerView.ViewHolder(parent) {
         listener?.inflated(item, itemView)
     }
 
-    interface ItemInflateListener {
+    interface ItemPopulateListener {
         fun inflated(viewType: Any, view: View)
     }
 }

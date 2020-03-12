@@ -28,7 +28,7 @@ abstract class BaseDelegateAdapter<VH : BaseViewHolder, T> : IDelegateAdapter<VH
             .inflate(layoutId, parent, false)
 
         return createViewHolder(inflatedView).apply {
-            setListener(object : BaseViewHolder.ItemInflateListener {
+            setListener(object : BaseViewHolder.ItemPopulateListener {
                 override fun inflated(viewType: Any, view: View) {
                     onBindViewHolder(view, viewType as T, this@apply)
                 }
