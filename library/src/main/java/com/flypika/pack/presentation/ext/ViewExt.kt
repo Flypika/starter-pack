@@ -210,3 +210,15 @@ inline var View.isVisibleOrInvisible: Boolean
     set(value) {
         visibility = if (value) View.VISIBLE else View.INVISIBLE
     }
+
+fun View.gone() {
+    this.visibility = View.GONE
+}
+
+fun View.visible() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.invisible() {
+    this.visibility = View.INVISIBLE
+}
