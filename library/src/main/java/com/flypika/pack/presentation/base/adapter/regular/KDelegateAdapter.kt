@@ -1,4 +1,4 @@
-package com.invest.megapolis.presentation.base.adapter.regular
+package com.flypika.pack.presentation.base.adapter.regular
 
 import android.view.View
 import kotlinx.android.extensions.LayoutContainer

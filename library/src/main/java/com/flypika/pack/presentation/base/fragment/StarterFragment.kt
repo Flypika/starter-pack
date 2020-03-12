@@ -4,7 +4,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.flypika.pack.presentation.dialog.LoadingDialog
-import com.flypika.pack.presentation.ui.util.transaction
+import com.flypika.pack.presentation.ext.transaction
 import com.flypika.pack.presentation.util.permission.OnPermissionRequestListener
 import com.flypika.pack.presentation.util.permission.impl.FragmentPermissionRequester
 import dagger.android.support.DaggerFragment

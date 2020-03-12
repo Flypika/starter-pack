@@ -1,7 +1,7 @@
-package com.invest.megapolis.presentation.base.adapter.diff
+package com.flypika.pack.presentation.base.adapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import com.invest.megapolis.presentation.base.adapter.model.IAdapterComparableItem
+import com.flypika.pack.presentation.base.adapter.model.IAdapterComparableItem
 
 class DiffUtilDelegateItemCallback : DiffUtil.ItemCallback<IAdapterComparableItem>() {
 

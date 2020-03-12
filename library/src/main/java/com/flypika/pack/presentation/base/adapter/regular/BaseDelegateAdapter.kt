@@ -1,11 +1,11 @@
-package com.invest.megapolis.presentation.base.adapter.regular
+package com.flypika.pack.presentation.base.adapter.regular
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.invest.megapolis.presentation.base.adapter.base.IDelegateAdapter
+import com.flypika.pack.presentation.base.adapter.base.IDelegateAdapter
 
 
 abstract class BaseDelegateAdapter<VH : BaseViewHolder, T> : IDelegateAdapter<VH, T> {

@@ -1,4 +1,4 @@
-package com.invest.megapolis.presentation.base.adapter.base
+package com.flypika.pack.presentation.base.adapter.base
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,5 +12,4 @@ interface IDelegateAdapter<VH : RecyclerView.ViewHolder, T> {
     fun onRecycled(holder: VH)
 
     fun isForViewType(items: List<*>, position: Int): Boolean
-
 }

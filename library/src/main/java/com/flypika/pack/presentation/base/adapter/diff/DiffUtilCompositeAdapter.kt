@@ -1,10 +1,10 @@
-package com.invest.megapolis.presentation.base.adapter.diff
+package com.flypika.pack.presentation.base.adapter.diff
 
 import android.util.SparseArray
 import androidx.recyclerview.widget.DiffUtil
-import com.invest.megapolis.presentation.base.adapter.base.BaseCompositeDelegateAdapter
-import com.invest.megapolis.presentation.base.adapter.base.IDelegateAdapter
-import com.invest.megapolis.presentation.base.adapter.model.IAdapterComparableItem
+import com.flypika.pack.presentation.base.adapter.base.BaseCompositeDelegateAdapter
+import com.flypika.pack.presentation.base.adapter.base.IDelegateAdapter
+import com.flypika.pack.presentation.base.adapter.model.IAdapterComparableItem
 
 open class DiffUtilCompositeAdapter(
     typeToAdapterMap: SparseArray<IDelegateAdapter<*, *>>

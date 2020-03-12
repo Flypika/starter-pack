@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import com.flypika.pack.presentation.base.fragment.OnBackListener
 import com.flypika.pack.presentation.dialog.LoadingDialog
-import com.flypika.pack.presentation.ui.util.transaction
+import com.flypika.pack.presentation.ext.transaction
 import com.flypika.pack.presentation.util.permission.OnPermissionRequestListener
 import com.flypika.pack.presentation.util.permission.impl.ActivityPermissionRequester
 import dagger.android.support.DaggerAppCompatActivity

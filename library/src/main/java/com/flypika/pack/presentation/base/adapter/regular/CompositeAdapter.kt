@@ -1,9 +1,9 @@
-package com.invest.megapolis.presentation.base.adapter.regular
+package com.flypika.pack.presentation.base.adapter.regular
 
 import android.util.SparseArray
-import com.invest.megapolis.presentation.base.adapter.base.BaseCompositeDelegateAdapter
-import com.invest.megapolis.presentation.base.adapter.base.IDelegateAdapter
-import com.invest.megapolis.presentation.base.adapter.model.IAdapterItem
+import com.flypika.pack.presentation.base.adapter.base.BaseCompositeDelegateAdapter
+import com.flypika.pack.presentation.base.adapter.base.IDelegateAdapter
+import com.flypika.pack.presentation.base.adapter.model.IAdapterItem
 
 open class CompositeAdapter(
     typeToAdapterMap: SparseArray<IDelegateAdapter<*, *>>

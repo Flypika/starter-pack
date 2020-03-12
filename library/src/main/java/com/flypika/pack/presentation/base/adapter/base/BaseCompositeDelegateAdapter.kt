@@ -1,4 +1,4 @@
-package com.invest.megapolis.presentation.base.adapter.base
+package com.flypika.pack.presentation.base.adapter.base
 
 import android.util.SparseArray
 import android.view.ViewGroup
