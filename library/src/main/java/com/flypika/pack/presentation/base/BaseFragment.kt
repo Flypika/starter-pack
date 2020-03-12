@@ -1,5 +1,6 @@
 package com.flypika.pack.presentation.base
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -58,5 +59,23 @@ abstract class BaseFragment : Fragment() {
         vm.activityActionBehavior.observe(this@BaseFragment, Observer {
             it?.invoke(activity as? AppCompatActivity ?: return@Observer)
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        _viewModels.values.forEach {
+            it.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        _viewModels.values.forEach {
+            it.onPermissionActivityResult(requestCode, permissions, grantResults)
+        }
     }
 }

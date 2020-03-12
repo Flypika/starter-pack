@@ -7,24 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.reflect.KClass
 
-abstract class BaseBottomSheetFragment : BottomSheetDialogFragment() {
+abstract class BaseDialogFragment : DialogFragment() {
 
     private val _viewModels by lazy { provideViewModel().mapKeys { it.key.java.name } }
 
     abstract fun viewModel(): BaseViewModel
+
+    @LayoutRes
+    protected abstract fun getLayoutId(): Int
 
     fun provideViewModel(): Map<KClass<*>, BaseViewModel> {
         return mapOf(
             vmCreator(viewModel()::class, viewModel())
         )
     }
-
-    @LayoutRes
-    protected abstract fun getLayoutId(): Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +56,7 @@ abstract class BaseBottomSheetFragment : BottomSheetDialogFragment() {
     open fun skipAutoObserveForVmActions(): List<KClass<*>> = emptyList()
 
     fun observeVmActions(vm: BaseViewModel) {
-        vm.activityActionBehavior.observe(this, Observer {
+        vm.activityActionBehavior.observe(this@BaseDialogFragment, Observer {
             it?.invoke(activity as? AppCompatActivity ?: return@Observer)
         })
     }

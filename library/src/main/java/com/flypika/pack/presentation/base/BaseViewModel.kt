@@ -1,5 +1,7 @@
 package com.flypika.pack.presentation.base
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -81,6 +83,48 @@ abstract class BaseViewModel : ViewModel() {
                 doOnAsyncBlock.invoke(this)
             }
         }
+    }
+
+    /**
+     * Receive the result from a previous call to
+     * [Activity.startActivityForResult].  This follows the
+     * related Activity API as described there in
+     * [Activity.onActivityResult].
+     *
+     * @param requestCode The integer request code originally supplied to
+     * startActivityForResult(), allowing you to identify who this
+     * result came from.
+     * @param resultCode The integer result code returned by the child activity
+     * through its setResult().
+     * @param data An Intent, which can return result data to the caller
+     * (various data can be attached to Intent "extras").
+     */
+    open fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    }
+
+    /**
+     * Callback for the result from requesting permissions. This method
+     * is invoked for every call on [Activity.requestPermissions].
+     *
+     *
+     * **Note:** It is possible that the permissions request interaction
+     * with the user is interrupted. In this case you will receive empty permissions
+     * and results arrays which should be treated as a cancellation.
+     *
+     *
+     * @param requestCode The request code passed in [Activity.requestPermissions].
+     * @param permissions The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     * which is either [android.content.pm.PackageManager.PERMISSION_GRANTED]
+     * or [android.content.pm.PackageManager.PERMISSION_DENIED]. Never null.
+     *
+     * @see Activity.requestPermissions
+     */
+    open fun onPermissionActivityResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
     }
 
     fun navigateBack() {
