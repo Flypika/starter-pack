@@ -9,49 +9,26 @@ import com.flypika.pack.R
 import com.flypika.pack.data.network.ResultWrapper
 import com.flypika.pack.presentation.ext.log
 import com.flypika.pack.presentation.livedata.manager.LiveEventManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.plus
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
-import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
-abstract class StarterViewModel<A : ViewAction> : ViewModel() {
-
-    protected sealed class Error {
-        object Internet : Error()
-        object Timeout : Error()
-        data class Http(val e: HttpException) : Error()
-        data class Unknown(val throwable: Throwable) : Error()
-    }
+abstract class StarterViewModel<A : ViewAction>(
+    val context: Context
+) : ViewModel() {
 
     val viewModelScope: CoroutineScope
         get() = (this as ViewModel).viewModelScope + CoroutineExceptionHandler { _, throwable ->
             Log.e(Thread.currentThread().name, Log.getStackTraceString(throwable))
             throw throwable
         }
-
-    @Inject
-    lateinit var context: Context
-
     val viewActionManager = LiveEventManager<Action<A>>()
-
     val loadingLiveData = MutableLiveData<Boolean>().apply {
         value = false
-    }
-
-    /**
-     * Dagger 2 callback called when all fields are injected therefore initialized
-     */
-    open fun onInjected() {}
-
-    fun showLoading() {
-        loadingLiveData.postValue(true)
-    }
-
-    fun hideLoading() {
-        loadingLiveData.postValue(false)
     }
 
     open fun handleServerError(throwable: Throwable) {
@@ -88,21 +65,17 @@ abstract class StarterViewModel<A : ViewAction> : ViewModel() {
         }
     }
 
-    inline fun launch(
-        context: CoroutineContext = Dispatchers.IO,
-        crossinline block: suspend () -> Unit
-    ) {
-        showLoading()
-        viewModelScope.launch(context) {
-            block()
-            hideLoading()
-        }
-    }
-
     private fun Throwable.toError(): Error = when (this) {
         is UnknownHostException -> Error.Internet
         is SocketTimeoutException, is TimeoutException -> Error.Timeout
         is HttpException -> Error.Http(this)
         else -> Error.Unknown(this)
+    }
+
+    protected sealed class Error {
+        object Internet : Error()
+        object Timeout : Error()
+        data class Http(val e: HttpException) : Error()
+        data class Unknown(val throwable: Throwable) : Error()
     }
 }
