@@ -126,20 +126,4 @@ abstract class BaseViewModel : ViewModel() {
         grantResults: IntArray
     ) {
     }
-
-    fun navigateBack() {
-
-    }
-
-    fun navigateBackTo(destinationId: Int) {
-
-    }
-
-    fun navigateTo(direction: Int) {
-
-    }
-
-    fun navigateToRoot() {
-
-    }
 }
