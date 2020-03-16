@@ -8,10 +8,14 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.flypika.pack.presentation.util.permission.OnPermissionRequestListener
+import com.flypika.pack.presentation.util.permission.impl.FragmentPermissionRequester
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.reflect.KClass
 
 abstract class BaseBottomSheetFragment : BottomSheetDialogFragment() {
+
+    private val permissionRequester = FragmentPermissionRequester(this)
 
     private val _viewModels by lazy { provideViewModel().mapKeys { it.key.java.name } }
 
@@ -73,9 +77,30 @@ abstract class BaseBottomSheetFragment : BottomSheetDialogFragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         _viewModels.values.forEach {
             it.onPermissionActivityResult(requestCode, permissions, grantResults)
         }
+        if (!permissionRequester.onRequestPermissionsResult(
+                requestCode,
+                permissions,
+                grantResults
+            )
+        ) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
+    open fun checkPermissions(
+        permissions: Array<String>,
+        onPermissionRequestListener: OnPermissionRequestListener
+    ) {
+        permissionRequester.checkPermissions(permissions, onPermissionRequestListener)
+    }
+
+    open fun requestPermissions(
+        permissions: Array<String>,
+        onPermissionRequestListener: OnPermissionRequestListener
+    ) {
+        permissionRequester.tryRequestPermission(permissions, onPermissionRequestListener)
     }
 }
