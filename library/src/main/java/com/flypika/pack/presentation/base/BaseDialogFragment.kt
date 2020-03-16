@@ -23,7 +23,7 @@ abstract class BaseDialogFragment : DialogFragment() {
     @LayoutRes
     protected abstract fun getLayoutId(): Int
 
-    fun provideViewModel(): Map<KClass<*>, BaseViewModel> {
+    open fun provideViewModel(): Map<KClass<*>, BaseViewModel> {
         return mapOf(
             vmCreator(viewModel()::class, viewModel())
         )
@@ -58,7 +58,7 @@ abstract class BaseDialogFragment : DialogFragment() {
 
     open fun skipAutoObserveForVmActions(): List<KClass<*>> = emptyList()
 
-    fun observeVmActions(vm: BaseViewModel) {
+    private fun observeVmActions(vm: BaseViewModel) {
         vm.activityActionBehavior.observe(this@BaseDialogFragment, Observer {
             it?.invoke(activity as? AppCompatActivity ?: return@Observer)
         })

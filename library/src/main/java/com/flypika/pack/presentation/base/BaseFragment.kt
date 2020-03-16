@@ -20,7 +20,7 @@ abstract class BaseFragment : Fragment() {
 
     abstract fun viewModel(): BaseViewModel
 
-    fun provideViewModel(): Map<KClass<*>, BaseViewModel> {
+    open fun provideViewModel(): Map<KClass<*>, BaseViewModel> {
         return mapOf(
             vmCreator(viewModel()::class, viewModel())
         )
@@ -58,7 +58,7 @@ abstract class BaseFragment : Fragment() {
 
     open fun skipAutoObserveForVmActions(): List<KClass<*>> = emptyList()
 
-    fun observeVmActions(vm: BaseViewModel) {
+    private fun observeVmActions(vm: BaseViewModel) {
         vm.activityActionBehavior.observe(this@BaseFragment, Observer {
             it?.invoke(activity as? AppCompatActivity ?: return@Observer)
         })
