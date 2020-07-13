@@ -54,6 +54,11 @@ open class BaseCompositeDelegateAdapter<T> protected constructor(
 
     open fun getItems() = data.toList()
 
+    open fun removeAt(position: Int) {
+        data.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     class Builder<T> {
 
         private var count: Int = 0

@@ -24,5 +24,4 @@ inline fun FragmentManager.transaction(
             }
         }
     }
-
 }

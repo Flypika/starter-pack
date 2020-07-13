@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.flypika.pack.presentation.ext.changeStatusBarColor
+import com.flypika.pack.presentation.ext.changeStatusBarTextColor
 import com.flypika.pack.presentation.util.permission.OnPermissionRequestListener
 import com.flypika.pack.presentation.util.permission.impl.FragmentPermissionRequester
 import kotlin.reflect.KClass
@@ -17,6 +20,10 @@ abstract class BaseFragment : Fragment() {
 
     private val permissionRequester = FragmentPermissionRequester(this)
     private val _viewModels by lazy { provideViewModel().mapKeys { it.key.java.name } }
+
+    open val isTranslucentStatus: Boolean = false
+    open val isDarkStatusTextColor: Boolean = true
+    open val statusBarColor: Int = com.flypika.pack.R.color.white
 
     abstract fun viewModel(): BaseViewModel
 
@@ -53,6 +60,12 @@ abstract class BaseFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        if (isTranslucentStatus) {
+            activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        } else {
+            activity?.changeStatusBarColor(statusBarColor)
+        }
+        activity?.changeStatusBarTextColor(isDarkStatusTextColor)
         return inflater.inflate(getLayoutId(), container, false)
     }
 

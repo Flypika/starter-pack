@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -46,6 +47,10 @@ abstract class BaseViewModel : ViewModel() {
     protected fun <P> doWorkInMainThread(doOnAsyncBlock: suspend CoroutineScope.() -> P) {
         doCoroutineWork(doOnAsyncBlock, viewModelScope, Main)
     }
+
+    // Do work in Default
+    protected fun <P> doWorkInDefaultThread(doOnAsyncBlock: suspend CoroutineScope.() -> P) =
+        doCoroutineWork(doOnAsyncBlock, viewModelScope, Dispatchers.Default)
 
     // Do work in IO repeately
     // doRepeatWork(1000) {...}

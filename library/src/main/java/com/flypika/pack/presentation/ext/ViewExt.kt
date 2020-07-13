@@ -109,7 +109,7 @@ fun TextView.textPost(text: String) {
     }
 }
 
-fun ViewGroup.forEach(block: (index: Int, child: View) -> Unit) {
+fun ViewGroup.forEach(block: (index: Int, child: View?) -> Unit) {
     for (i in 0 until this.childCount) {
         block(i, getChildAt(i))
     }

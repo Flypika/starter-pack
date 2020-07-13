@@ -3,7 +3,7 @@ package com.flypika.pack.presentation.base
 import androidx.appcompat.app.AppCompatActivity
 import com.flypika.pack.presentation.ext.cast
 
-open class VmAction(var singleAction: (BaseActivity) -> Unit) {
+open class VmAction(private var singleAction: (BaseActivity) -> Unit) {
 
     open fun invoke(activity: AppCompatActivity?) {
         activity ?: return

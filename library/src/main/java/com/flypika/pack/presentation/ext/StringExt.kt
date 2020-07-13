@@ -6,5 +6,6 @@ import android.net.Uri
 
 fun String.openInBrowser(context: Context?) {
     val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(this))
-    context?.startActivity(browserIntent)
+    browserIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    context?.startActivity(Intent.createChooser(browserIntent, null))
 }
