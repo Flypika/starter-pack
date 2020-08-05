@@ -1,2 +1,3 @@
+include ':starter-pack-cicerone'
 include ':starter-pack'
 rootProject.name='FlypikaStarterPack'
