@@ -1,2 +1,2 @@
-include ':library', ':test'
+include ':starter-pack'
 rootProject.name='FlypikaStarterPack'
