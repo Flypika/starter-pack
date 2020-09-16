@@ -46,4 +46,8 @@ dependencies {
 
     //timber
     api "com.jakewharton.timber:timber:$timberVersion"
+
+    //adapter delegate
+    api 'com.hannesdorfmann:adapterdelegates4-kotlin-dsl-layoutcontainer:4.3.0'
+//    api 'com.hannesdorfmann:adapterdelegates4-pagination:4.3.0'
 }
