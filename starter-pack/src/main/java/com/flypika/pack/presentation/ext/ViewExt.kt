@@ -20,11 +20,9 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.flypika.pack.presentation.base.adapter.base.BaseCompositeDelegateAdapter
-import com.flypika.pack.presentation.base.adapter.diff.DiffUtilCompositeAdapter
-import com.flypika.pack.presentation.base.adapter.model.IAdapterComparableItem
-import com.flypika.pack.presentation.base.adapter.regular.CompositeAdapter
 import com.google.android.material.snackbar.Snackbar
+import com.hannesdorfmann.adapterdelegates4.AbsDelegationAdapter
+import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 
 /**
  * Set on [EditText] listener on enter button click.
@@ -174,18 +172,24 @@ fun ViewGroup.inflate(
 
 fun <T> RecyclerView.setItems(items: List<T>) {
     when (adapter) {
-        is DiffUtilCompositeAdapter -> (adapter as DiffUtilCompositeAdapter).setItems(items as List<IAdapterComparableItem>)
-        is CompositeAdapter -> (adapter as BaseCompositeDelegateAdapter<T>).setItems(items)
+        is AsyncListDifferDelegationAdapter<*> -> {
+            (adapter as AsyncListDifferDelegationAdapter<T>).setItems(items)
+            (adapter as AsyncListDifferDelegationAdapter<T>).notifyDataSetChanged()
+        }
+        is AbsDelegationAdapter<*> -> {
+            (adapter as AbsDelegationAdapter<List<T>>).setItems(items)
+            (adapter as AbsDelegationAdapter<List<T>>).notifyDataSetChanged()
+        }
         else -> return
     }
 }
 
 fun <T> RecyclerView.getItems(): List<T> {
-    if (adapter !is BaseCompositeDelegateAdapter<*>) {
+    if (adapter !is AbsDelegationAdapter<*>) {
         return listOf()
     }
 
-    return (adapter as BaseCompositeDelegateAdapter<T>).getItems()
+    return (adapter as AbsDelegationAdapter<List<T>>).getItems()
 }
 
 fun View.addRipple() = with(TypedValue()) {
